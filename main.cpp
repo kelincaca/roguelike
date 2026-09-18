@@ -3,7 +3,7 @@
 int main()
 {
     InitWindow(800, 450, "Raylib test");
-
+    //不知道写啥啊
     while (!WindowShouldClose())
     {
         BeginDrawing();
