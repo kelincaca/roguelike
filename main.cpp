@@ -2,7 +2,7 @@
 
 int main()
 {
-    InitWindow(800, 450, "Raylib测试窗口");
+    InitWindow(800, 450, "Raylib test");
 
     while (!WindowShouldClose())
     {
