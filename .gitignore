@@ -1,0 +1,12 @@
+# 编译产物
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.obj
+*.o
+*.lib
+# 构建目录
+Debug/
+Release/
+build/
