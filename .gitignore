@@ -1,12 +1,19 @@
-# 编译产物
+# CMake构建输出
+out/
+build/
+
+# Visual Studio本地缓存
+.vs/
+
+# VSCode本地配置（如果你本机设置不想提交就保留；想共享调试配置就删掉下面这一行）
+.vscode/
+
+# 编译出来的exe、中间产物
 *.exe
-*.dll
+*.obj
 *.pdb
 *.ilk
-*.obj
-*.o
-*.lib
-# 构建目录
-Debug/
-Release/
-build/
+
+# 系统生成
+*.DS_Store
+Thumbs.db
