@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 17)
 #basically this will change the RESOURCES_PATH to be the local path
 #! ! ! ! ! ! !
 #delete the out folder after changing if visual studio doesn recognize the change
-set(PRODUCTION_BUILD ON CACHE BOOL "Make this a production build" FORCE)
+set(PRODUCTION_BUILD OFF CACHE BOOL "Make this a production build" FORCE)
 
 if(MSVC) 
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
@@ -76,7 +76,7 @@ endif()
 
 target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src/gameLayer")
 target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src/platform")
-target_link_libraries("${CMAKE_PROJECT_NAME}"PRIVATE raylib imgui rlimgui)
+target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE raylib imgui rlimgui)
 
 
 

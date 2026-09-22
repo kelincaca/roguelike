@@ -1,4 +1,4 @@
-#include<raylib.h>
+ #include<raylib.h>
 #include"gameMain.h"
 struct GameData
 {
@@ -15,11 +15,13 @@ bool updateGame()
         c.r=255;
         c.g=0;
         c.b=200;
-        c.a = 255;
-        if (IsKeyDown(KEY_A)) { gameData.positionX -= 1; }
-        if (IsKeyDown(KEY_D)) { gameData.positionX += 1; }
-        if (IsKeyDown(KEY_W)) { gameData.positionY -= 1; }
-        if (IsKeyDown(KEY_S)) { gameData.positionY += 1; }
+        c.a =255;
+        float deltaTime = GetFrameTime();
+        if (deltaTime > 1.f / 5) { deltaTime = 1 / 5.f; }
+        if (IsKeyDown(KEY_A)) { gameData.positionX -= 200*deltaTime; }
+        if (IsKeyDown(KEY_D)) { gameData.positionX += 200*deltaTime; }
+        if (IsKeyDown(KEY_W)) { gameData.positionY -= 200*deltaTime; }
+        if (IsKeyDown(KEY_S)) { gameData.positionY += 200*deltaTime; }
         //positionX,positionY,sizeX,sizeY,color
         DrawRectangle(gameData.positionX, gameData.positionY, 50, 50, c);
     return true; 
