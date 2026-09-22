@@ -8,10 +8,10 @@ void assertFuncProduction(
 	const char *comment = "---");
 
 void assertFuncInternal(
-	const char *expression,
-	const char *file_name,
+	const char* expression,
+	const char* file_name,
 	unsigned const line_number,
-	const char *comment = "---");
+	const char* comment = "---");
 
 #if DEVELOPLEMT_BUILD == 1
 
