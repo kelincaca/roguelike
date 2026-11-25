@@ -4,11 +4,13 @@
 #include"assetManager.h"
 #include"gameMap.h"
 #include"helpers.h"
+#include"physics.h"
 #include <raymath.h>
 struct GameData
 {
 	GameMap gameMap;
 	Camera2D camera;
+	PhysicalEntity player;
 }gameData;
 
 AssetManager assetManager;
@@ -17,20 +19,25 @@ bool initGame()
 {
 	assetManager.loadAll();
 
-	gameData.gameMap.create(700, 500);
-	for(int i=0;i<700;i++)
-		for (int j = 0;j < 500;j++)
+	gameData.gameMap.create(10, 8);
+	for (int y = 0;y < gameData.gameMap.h;y++)
+		for (int x = 0;x < gameData.gameMap.w;x++)
 		{
-			gameData.gameMap.getBlockUnsafe(i, j).type = Block::stone;
+			if (x == 0 || x == gameData.gameMap.w - 1 || y == 0 || y == gameData.gameMap.h - 1)
+			{
+				gameData.gameMap.getBlockUnsafe(x, y).type = Block::stone;
+			}
+			else
+			{
+				gameData.gameMap.getBlockUnsafe(x, y).type = Block::dirt;
+			}
 		}
-	gameData.gameMap.getBlockUnsafe(0, 0).type = Block::dirt;
-	gameData.gameMap.getBlockUnsafe(1, 1).type = Block::grass;
-	gameData.gameMap.getBlockUnsafe(2, 2).type = Block::goldBlock;
-	gameData.gameMap.getBlockUnsafe(3, 3).type = Block::glass;
-	gameData.gameMap.getBlockUnsafe(4, 4).type = Block::platform;
-	gameData.camera.target = { 0,0 };
 	gameData.camera.rotation = 0.0f;
 	gameData.camera.zoom = 100.0f;
+
+	gameData.player.teleport({5,4});
+	gameData.player.transform.w = 0.6f;
+	gameData.player.transform.h = 0.6f;
 
 	return true;
 }
@@ -41,10 +48,16 @@ bool updateGame()
 	gameData.camera.offset = { GetScreenWidth()/2.0f,GetScreenHeight() / 2.0f };
 	ClearBackground({ 75,75,150,225 });
 
-	if (IsKeyDown(KEY_LEFT))gameData.camera.target.x -= 7.f * deltaTime;
-	if (IsKeyDown(KEY_RIGHT))gameData.camera.target.x += 7.f * deltaTime;
-	if (IsKeyDown(KEY_UP))gameData.camera.target.y -= 7.f * deltaTime;
-	if (IsKeyDown(KEY_DOWN))gameData.camera.target.y += 7.f * deltaTime;
+	static float CAMERA_SPEED = 10;
+	if (IsKeyDown(KEY_A))gameData.player.transform.pos.x -= CAMERA_SPEED * GetFrameTime();
+	if (IsKeyDown(KEY_D))gameData.player.transform.pos.x += CAMERA_SPEED * GetFrameTime();
+	if (IsKeyDown(KEY_W))gameData.player.transform.pos.y -= CAMERA_SPEED * GetFrameTime();
+	if (IsKeyDown(KEY_S))gameData.player.transform.pos.y += CAMERA_SPEED * GetFrameTime();
+
+	gameData.player.updateForces(deltaTime);
+	gameData.player.resolveConstrains(gameData.gameMap);
+	gameData.camera.target = gameData.player.transform.pos;
+	gameData.player.updateFinal();
 	BeginMode2D(gameData.camera);
 
 	Vector2 topLeftView = GetScreenToWorld2D({ 0,0 }, gameData.camera);
@@ -77,6 +90,20 @@ bool updateGame()
 			}
 		}
 
+	Transform2D playerSprite = gameData.player.transform;
+	playerSprite.w = 0.6;
+	playerSprite.h = 0.8;
+	DrawTexturePro(
+		assetManager.player,
+		{ 0,0,(float)assetManager.player.width,(float)assetManager.player.height },
+		playerSprite.getAABB(),
+		{ 0,0 },
+		0.0f,
+		WHITE
+	);
+
+	DrawRectangleLinesEx(gameData.player.transform.getAABB(), 0.1,
+		{ 20,101,250,120 });
 	EndMode2D();
 
 	DrawFPS(10, 10);

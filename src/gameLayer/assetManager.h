@@ -4,6 +4,7 @@
 struct AssetManager
 {
 	Texture2D dirt = {};
-	Texture textures = {};
+	Texture2D textures = {};
+	Texture2D player = {};
 	void loadAll();
 };

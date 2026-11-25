@@ -62,5 +62,9 @@ struct Block
 
 		BLOCK_COUNT,
 	};
+	bool isCollidable() const
+	{
+		return type == stone;
+	}
 	std::uint16_t type = 0;
 };
