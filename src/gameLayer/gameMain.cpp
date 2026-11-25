@@ -49,10 +49,10 @@ bool updateGame()
 	ClearBackground({ 75,75,150,225 });
 
 	static float CAMERA_SPEED = 10;
-	if (IsKeyDown(KEY_A))gameData.player.transform.pos.x -= CAMERA_SPEED * GetFrameTime();
-	if (IsKeyDown(KEY_D))gameData.player.transform.pos.x += CAMERA_SPEED * GetFrameTime();
-	if (IsKeyDown(KEY_W))gameData.player.transform.pos.y -= CAMERA_SPEED * GetFrameTime();
-	if (IsKeyDown(KEY_S))gameData.player.transform.pos.y += CAMERA_SPEED * GetFrameTime();
+	if (IsKeyDown(KEY_A))gameData.player.transform.pos.x -= CAMERA_SPEED * deltaTime;
+	if (IsKeyDown(KEY_D))gameData.player.transform.pos.x += CAMERA_SPEED * deltaTime;
+	if (IsKeyDown(KEY_W))gameData.player.transform.pos.y -= CAMERA_SPEED * deltaTime;
+	if (IsKeyDown(KEY_S))gameData.player.transform.pos.y += CAMERA_SPEED * deltaTime;
 
 	gameData.player.updateForces(deltaTime);
 	gameData.player.resolveConstrains(gameData.gameMap);

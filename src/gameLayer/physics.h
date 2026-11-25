@@ -14,7 +14,7 @@ struct Transform2D
 	Vector2 getLeft() const { return { pos.x-w*0.5f,pos.y }; }
 	Vector2 getRight() const { return { pos.x+w*0.5f,pos.y }; }
 	Vector2 getTopLeft() const { return { pos.x-w*0.5f,pos.y -h*0.5f}; }
-	Vector2 getTopRight() const { return { pos.x+2*0.5f,pos.y-h*0.5f }; }
+	Vector2 getTopRight() const { return { pos.x+w*0.5f,pos.y-h*0.5f }; }
 	Vector2 getBottomLeft() const { return { pos.x-w*0.5f,pos.y+h*0.5f }; }
 	Vector2 getBottomRight() const { return { pos.x+w*0.5f,pos.y-h*0.5f }; }
 

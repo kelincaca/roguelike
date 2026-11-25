@@ -24,12 +24,11 @@ int main(void)
         {
             CloseWindow();
         }
-
+        CloseWindow();
         EndDrawing();
     }
 
     closeGame();
 
-    CloseWindow();
     return 0;
 }

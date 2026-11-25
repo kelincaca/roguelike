@@ -21,8 +21,8 @@ Block& GameMap::getBlockUnsafe(int x, int y)
 }
 Block* GameMap::getBlockSafe(int x, int y)
 {
-	assert(mapData.size() ==
-		w * h,&&"Map data not initialized");
+	assert((mapData.size() ==
+		w * h)&&"Map data not initialized");
 	if (x < 0 || y < 0 || x >= w || y >= h) { return nullptr; }
 	return &mapData[x + y * w];
 }
