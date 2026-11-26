@@ -16,7 +16,7 @@ struct Transform2D
 	Vector2 getTopLeft() const { return { pos.x-w*0.5f,pos.y -h*0.5f}; }
 	Vector2 getTopRight() const { return { pos.x+w*0.5f,pos.y-h*0.5f }; }
 	Vector2 getBottomLeft() const { return { pos.x-w*0.5f,pos.y+h*0.5f }; }
-	Vector2 getBottomRight() const { return { pos.x+w*0.5f,pos.y-h*0.5f }; }
+	Vector2 getBottomRight() const { return { pos.x+w*0.5f,pos.y+h*0.5f }; }
 
 Rectangle getAABB()
 {
