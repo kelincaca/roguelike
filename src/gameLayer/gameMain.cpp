@@ -7,7 +7,7 @@
 #include"physics.h"
 #include <raymath.h>
 #include<entities/slime.h>
-#include<random.h>
+#include<random>
 struct GameData
 {
 	GameMap gameMap;
@@ -63,7 +63,7 @@ bool updateGame()
 	gameData.player.resolveConstrains(gameData.gameMap);
 	gameData.camera.target = gameData.player.transform.pos;
 	gameData.player.updateFinal();
-
+	std::ranlux24_base rng(std::random_device{}());
 	gameData.slime.update(deltaTime,rng,gameData.player.getPosition());
 
 	gameData.slime.physics.updateForces(deltaTime);

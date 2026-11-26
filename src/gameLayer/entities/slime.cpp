@@ -10,7 +10,7 @@ void Slime::render(AssetManager& assetManager)
 
 	DrawTexturePro(
 		assetManager.slime,
-		getTextureAtlas(0, 0, 32, 32),
+		getTextureAtlas(animation.positionX, animation.positionY, 32, 32),
 		aabb,
 		{ 0,0 },
 		0.0f,
@@ -18,12 +18,20 @@ void Slime::render(AssetManager& assetManager)
 	);
 }
 
-void Slime::update(float deltaTime)
+void Slime::update(float deltaTime,std::ranlux24_base& rng,Vector2 playerPosition)
 {
 	changeStateTimer -= deltaTime;
 
 	if (changeStateTimer < 0)
 	{
+		if (Vector2Length(physics.velocity) > 0.01f)
+		{
+			animation.setAnimation(1);
+		}
+		else
+		{
+			animation.setAnimation(0);
+		}
 		changeStateTimer = getRandomFloat(rng, 1, 7);
 
 		float distanceToPlayer = Vector2Distance(playerPosition, getPosition());
@@ -48,6 +56,9 @@ void Slime::update(float deltaTime)
 	switch (currentState)
 	{
 	case STATE_WONDERING:
+	{
+		physics.velocity = {};
+	}
 		break;
 
 	case STATE_CHASING:
@@ -67,4 +78,5 @@ void Slime::update(float deltaTime)
 	}
 	break;
 	}
+	animation.update(deltaTime, 0.08, 7);
 }
