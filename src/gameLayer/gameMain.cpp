@@ -6,11 +6,14 @@
 #include"helpers.h"
 #include"physics.h"
 #include <raymath.h>
+#include<entities/slime.h>
+#include<random.h>
 struct GameData
 {
 	GameMap gameMap;
 	Camera2D camera;
 	PhysicalEntity player;
+	Slime slime;
 }gameData;
 
 AssetManager assetManager;
@@ -38,6 +41,8 @@ bool initGame()
 	gameData.player.teleport({5,4});
 	gameData.player.transform.w = 0.6f;
 	gameData.player.transform.h = 0.6f;
+	
+	gameData.slime.physics.teleport({ 2,2 });
 
 	return true;
 }
@@ -52,12 +57,19 @@ bool updateGame()
 	if (IsKeyDown(KEY_A))gameData.player.transform.pos.x -= CAMERA_SPEED * deltaTime;
 	if (IsKeyDown(KEY_D))gameData.player.transform.pos.x += CAMERA_SPEED * deltaTime;
 	if (IsKeyDown(KEY_W))gameData.player.transform.pos.y -= CAMERA_SPEED * deltaTime;
-	if (IsKeyDown(KEY_S))gameData.player.transform.pos.y += CAMERA_SPEED * deltaTime;
+	if (IsKeyDown(KEY_S))gameData.player.transform.pos.y += CAMERA_SPEED * deltaTime ;
 
 	gameData.player.updateForces(deltaTime);
 	gameData.player.resolveConstrains(gameData.gameMap);
 	gameData.camera.target = gameData.player.transform.pos;
 	gameData.player.updateFinal();
+
+	gameData.slime.update(deltaTime,rng,gameData.player.getPosition());
+
+	gameData.slime.physics.updateForces(deltaTime);
+	gameData.slime.physics.resolveConstrains(gameData.gameMap);
+	gameData.slime.physics.updateFinal();
+
 	BeginMode2D(gameData.camera);
 
 	Vector2 topLeftView = GetScreenToWorld2D({ 0,0 }, gameData.camera);
@@ -93,6 +105,9 @@ bool updateGame()
 	Transform2D playerSprite = gameData.player.transform;
 	playerSprite.w = 0.6;
 	playerSprite.h = 0.8;
+
+	gameData.slime.render(assetManager);
+	
 	DrawTexturePro(
 		assetManager.player,
 		{ 0,0,(float)assetManager.player.width,(float)assetManager.player.height },
@@ -101,6 +116,7 @@ bool updateGame()
 		0.0f,
 		WHITE
 	);
+
 
 	DrawRectangleLinesEx(gameData.player.transform.getAABB(), 0.1,
 		{ 20,101,250,120 });

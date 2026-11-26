@@ -24,10 +24,9 @@ int main(void)
         {
             CloseWindow();
         }
-        CloseWindow();
         EndDrawing();
     }
-
+    CloseWindow();
     closeGame();
 
     return 0;

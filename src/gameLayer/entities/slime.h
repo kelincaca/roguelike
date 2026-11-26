@@ -1,0 +1,31 @@
+﻿#pragma once
+
+#include<physics.h>
+#include<raylib.h>
+#include<random>
+
+
+struct AssetManager;
+
+struct Slime
+{
+	Slime()
+	{
+		physics.transform.w = 0.6f;
+		physics.transform.h = 0.6f;
+	}
+	PhysicalEntity physics;
+	Vector2& getPosition()
+	{
+		return physics.transform.pos;
+	}
+	void render(AssetManager& assetManager);
+	void update(float deltaTime, std::ranlux24_base rng, Vector2 playerPosition);
+	enum
+	{
+		STATE_WONDERING = 0,
+		STATE_CHASING,
+	};
+	int currentState = STATE_WONDERING;
+	float changeStateTimer = 1;
+};
